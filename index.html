@@ -218,9 +218,14 @@
 
             const authBtn = document.getElementById('auth-btn');
             const entryForm = document.getElementById('entry-form');
+
+            function collectInputs() {
+                return [...new FormData(entryForm)];
+            }
+
             authBtn.addEventListener('click', e => {
                 e.preventDefault();
-                return [...new FormData(entryForm)];
+                console.log([...new FormData(entryForm)]);
             });
         });
     </script>
