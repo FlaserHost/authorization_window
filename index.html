@@ -208,9 +208,22 @@
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const preparedData = {
+                server: '',
+                port: '',
+                publication_name: '',
+                login: '',
+                password: ''
+            }
+
+            const firstSlide = preparedData.server !== '' && preparedData.port !== '';
+            const inputs = document.querySelectorAll('.auth-field');
+
+            Object.values(preparedData).forEach((item, index) => inputs[index].value = item);
+
             const swiper = new Swiper('.swiper', {
                 direction: 'horizontal',
-                initialSlide: 0,
+                initialSlide: firstSlide ? 1 : 0,
                 pagination: {
                     el: '.swiper-pagination',
                 },
@@ -219,13 +232,11 @@
             const authBtn = document.getElementById('auth-btn');
             const entryForm = document.getElementById('entry-form');
 
-            function collectInputs() {
-                return [...new FormData(entryForm)];
-            }
+            const collectInputs = () => console.log([...new FormData(entryForm)]);
 
             authBtn.addEventListener('click', e => {
                 e.preventDefault();
-                console.log([...new FormData(entryForm)]);
+                collectInputs();
             });
         });
     </script>
