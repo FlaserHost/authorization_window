@@ -234,6 +234,10 @@
 
             const collectInputs = () => console.log([...new FormData(entryForm)]);
 
+            /*function collectInputs() {
+                console.log([...new FormData(entryForm)]);
+            }*/
+
             authBtn.addEventListener('click', e => {
                 e.preventDefault();
                 collectInputs();
