@@ -199,6 +199,7 @@
                 <div class="swiper-pagination"></div>
                 <div class="auth-btn-wrapper">
                     <button class="auth-btn" id="auth-btn" type="submit">Авторизоваться</button>
+                    <a id="testHref" hidden href="#"></a>
                 </div>
             </form>
         </section>
@@ -209,11 +210,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const preparedData = {
-                server: '',
-                port: '',
-                publication_name: '',
-                login: '',
-                password: ''
+                server: 'dfgdgfh',
+                port: '564',
+                publication_name: 'dfgxccx',
+                login: 'dfger',
+                password: '4444'
             }
 
             const firstSlide = preparedData.server !== '' && preparedData.port !== '';
@@ -231,16 +232,13 @@
 
             const authBtn = document.getElementById('auth-btn');
             const entryForm = document.getElementById('entry-form');
-
-            const collectInputs = () => console.log([...new FormData(entryForm)]);
-
-            /*function collectInputs() {
-                console.log([...new FormData(entryForm)]);
-            }*/
+            const shadowHref = document.getElementById('testHref');
 
             authBtn.addEventListener('click', e => {
                 e.preventDefault();
-                collectInputs();
+                const authData = [...new FormData(entryForm)].map(item => item[1]);
+                const dataLikeRow = JSON.stringify(authData.join(';'));
+                shadowHref.setAttribute('href', dataLikeRow);
             });
         });
     </script>
