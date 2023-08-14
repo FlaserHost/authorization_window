@@ -246,7 +246,7 @@
 
             const shadowCollect = () => {
                 const dataLikeRow = collectionCreate();
-                authLink.setAttribute('href', dataLikeRow);
+                authLink.setAttribute('href', `id_${dataLikeRow}`);
             }
 
             inputs.forEach(input => {
@@ -265,7 +265,13 @@
                 }
             }, 0);
 
-            authLink.addEventListener('click', e => e.preventDefault());
+            authLink.addEventListener('click', e => console.log('send'));
+
+            document.body.addEventListener('touchstart', e => {
+                if (e.target.classList.contains('auth-link')) {
+                     e.target.click();
+                }
+            });
 
             const swiper = new Swiper('.swiper', {
                 direction: 'horizontal',
