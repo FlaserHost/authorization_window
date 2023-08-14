@@ -118,16 +118,16 @@
         }
 
         .swiper-pagination-bullet-active,
-        .auth-btn {
+        .auth-link {
             background-color: #0AA9FF;
         }
 
-        .auth-btn-wrapper {
+        .auth-link-wrapper {
             margin-top: 34px;
             text-align: center;
         }
 
-        .auth-btn,
+        .auth-link,
         .access-request-btn {
             width: 204px;
             padding: 11px 10px;
@@ -135,7 +135,7 @@
             font-size: 15px;
         }
 
-        .auth-btn {
+        .auth-link {
             color: #fff;
         }
 
@@ -197,9 +197,8 @@
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
-                <div class="auth-btn-wrapper">
-                    <button class="auth-btn" id="auth-btn" type="submit">Авторизоваться</button>
-                    <a id="testHref" hidden href="#"></a>
+                <div class="auth-link-wrapper">
+                    <a class="auth-link" id="auth-link" href="#">Авторизоваться</a>
                 </div>
             </form>
         </section>
@@ -210,11 +209,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const preparedData = {
-                server: 'dfgdgfh',
-                port: '564',
-                publication_name: 'dfgxccx',
-                login: 'dfger',
-                password: '4444'
+                server: '',
+                port: '',
+                publication_name: '',
+                login: '',
+                password: ''
             }
 
             const firstSlide = preparedData.server !== '' && preparedData.port !== '';
@@ -230,15 +229,14 @@
                 },
             });
 
-            const authBtn = document.getElementById('auth-btn');
+            const authLink = document.getElementById('auth-link');
             const entryForm = document.getElementById('entry-form');
-            const shadowHref = document.getElementById('testHref');
 
-            authBtn.addEventListener('click', e => {
+            authLink.addEventListener('click', e => {
                 e.preventDefault();
                 const authData = [...new FormData(entryForm)].map(item => item[1]);
-                const dataLikeRow = JSON.stringify(authData.join(';'));
-                shadowHref.setAttribute('href', dataLikeRow);
+                const dataLikeRow = authData.join(';');
+                e.target.setAttribute('href', dataLikeRow);
             });
         });
     </script>
