@@ -30,10 +30,16 @@
             outline: none;
             background-color: transparent;
             color: #000;
+            cursor: pointer;
         }
 
         input {
             outline: none;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
         }
 
         .main_content {
@@ -124,7 +130,8 @@
 
         .auth-link-wrapper {
             margin-top: 34px;
-            text-align: center;
+            display: flex;
+            justify-content: center;
         }
 
         .auth-link,
@@ -137,6 +144,8 @@
 
         .auth-link {
             color: #fff;
+            display: block;
+            text-align: center;
         }
 
         .access-request {
@@ -148,6 +157,12 @@
         .access-request-btn {
             color: #0AA9FF;
             border: 1px solid #0AA9FF;
+        }
+
+        .shadow-btn {
+            opacity: 0;
+            position: absolute;
+            right: calc(100% + 200px);
         }
     </style>
     <script class="swiper-script">
@@ -201,6 +216,7 @@
                     <a class="auth-link" id="auth-link" href="#">Авторизоваться</a>
                 </div>
             </form>
+            <button class="shadow-btn" id="shadow-btn"></button>
         </section>
         <section class="access-request">
             <button class="access-request-btn" id="access-request-btn" type="button">Запросить доступ</button>
@@ -218,8 +234,38 @@
 
             const firstSlide = preparedData.server !== '' && preparedData.port !== '';
             const inputs = document.querySelectorAll('.auth-field');
+            const shadowBtn = document.getElementById('shadow-btn');
 
-            Object.values(preparedData).forEach((item, index) => inputs[index].value = item);
+            const authLink = document.getElementById('auth-link');
+            const entryForm = document.getElementById('entry-form');
+
+            const collectionCreate = () => {
+                const authData = [...new FormData(entryForm)].map(item => item[1]);
+                return authData.join(';');
+            }
+
+            const shadowCollect = () => {
+                const dataLikeRow = collectionCreate();
+                authLink.setAttribute('href', dataLikeRow);
+            }
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => shadowCollect());
+            });
+
+            shadowBtn.addEventListener('click', () => shadowCollect());
+
+            Object.values(preparedData).reduce((counter, item, index, original) => {
+                inputs[index].value = item;
+
+                if (index === original.length - 1) {
+                    shadowBtn.click();
+                } else {
+                    return counter + 1;
+                }
+            }, 0);
+
+            authLink.addEventListener('click', e => e.preventDefault());
 
             const swiper = new Swiper('.swiper', {
                 direction: 'horizontal',
@@ -227,16 +273,6 @@
                 pagination: {
                     el: '.swiper-pagination',
                 },
-            });
-
-            const authLink = document.getElementById('auth-link');
-            const entryForm = document.getElementById('entry-form');
-
-            authLink.addEventListener('click', e => {
-                e.preventDefault();
-                const authData = [...new FormData(entryForm)].map(item => item[1]);
-                const dataLikeRow = authData.join(';');
-                e.target.setAttribute('href', dataLikeRow);
             });
         });
     </script>
