@@ -225,11 +225,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const preparedData = {
-                server: '',
-                port: '',
-                publication_name: '',
-                login: '',
-                password: ''
+                server: 'id_server',
+                port: 'id_port',
+                publication_name: 'id_base',
+                login: 'id_log',
+                password: 'id_pass'
             }
 
             const firstSlide = preparedData.server !== '' && preparedData.port !== '';
@@ -244,15 +244,17 @@
                 return authData.join(';');
             }
 
+            let timeoutId;
             const shadowCollect = () => {
-                const dataLikeRow = collectionCreate();
-                authLink.setAttribute('href', `id_${dataLikeRow}`);
+                clearTimeout(timeoutId);
+
+                timeoutId = setTimeout(() => {
+                    const dataLikeRow = collectionCreate();
+                    authLink.setAttribute('href', `id_${dataLikeRow}`);
+                }, 300);
             }
 
-            inputs.forEach(input => {
-                input.addEventListener('blur', () => shadowCollect());
-            });
-
+            inputs.forEach(input => input.addEventListener('input', () => shadowCollect()));
             shadowBtn.addEventListener('click', () => shadowCollect());
 
             Object.values(preparedData).reduce((counter, item, index, original) => {
@@ -265,7 +267,10 @@
                 }
             }, 0);
 
-            authLink.addEventListener('click', e => console.log('send'));
+            authLink.addEventListener('click', e => {
+                e.preventDefault();
+                console.log('send');
+            });
 
             document.body.addEventListener('touchstart', e => {
                 if (e.target.classList.contains('auth-link')) {
