@@ -57,8 +57,8 @@
 
         .logo-section {
             width: 100%;
-            max-height: 202px;
             height: 100%;
+            max-height: 300px;
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -66,7 +66,7 @@
 
         .entry-section {
             width: 100%;
-            margin-top: 60px;
+            margin: 60px 0 12px;
             padding: 0 20px;
         }
 
@@ -246,17 +246,14 @@
                 return authData.join(';');
             }
 
-            let timeoutId;
             const shadowCollect = () => {
-                clearTimeout(timeoutId);
-
-                timeoutId = setTimeout(() => {
-                    const dataLikeRow = collectionCreate();
-                    authLink.setAttribute('href', `id_${dataLikeRow}`);
-                }, 300);
+                const dataLikeRow = collectionCreate();
+                authLink.setAttribute('href', `id_${dataLikeRow}`);
             }
 
-            inputs.forEach(input => input.addEventListener('input', () => shadowCollect()));
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => shadowCollect());
+            });
 
             shadowBtn.addEventListener('click', () => shadowCollect());
 
@@ -270,10 +267,7 @@
                 }
             }, 0);
 
-            authLink.addEventListener('click', e => {
-                e.preventDefault();
-                console.log('send');
-            });
+            authLink.addEventListener('click', e => console.log('send'));
 
             document.body.addEventListener('touchstart', e => {
                 if (e.target.classList.contains('auth-link')) {
